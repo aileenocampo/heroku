@@ -42,11 +42,12 @@ function Food() {
   const [currentName, setCurrentName] = useState('')
   const [currentServings, setCurrentServings] = useState(0)
   const [currentUrl, setCurrentUrl] = useState('')
+  const foodURL = 'https://food-app-backend-server.herokuapp.com/food'
   
 
   useEffect(() => {
     let getFood = async () => {
-      let response = await fetch('http://localhost:5000/food')
+      let response = await fetch(foodURL)
       let data = await response.json()
       console.log(data)
       setFood(data)
@@ -55,7 +56,7 @@ function Food() {
   }, [update])
   
   async function deleteMeal(id){
-    await fetch('http://localhost:5000/food', {
+    await fetch(foodURL, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id })
@@ -69,7 +70,7 @@ function Food() {
     } else {
       cal--
     }
-    await fetch('http://localhost:5000/food', {
+    await fetch(foodURL, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id, servings: cal })
@@ -78,7 +79,7 @@ function Food() {
   }
 
   async function addMeal(){
-    await fetch('http://localhost:5000/food', {
+    await fetch(foodURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: currentName, servings: currentServings, image_url: currentUrl})
@@ -87,17 +88,7 @@ function Food() {
   .catch((err) => console.log('error' + err))
   console.log(currentName + 'hi')
   }
-
-  // async function handleChange(e){
-  //   if(e.target.className === 'name'){
-  //     return setCurrentName(e.target.value)
-  //   } else if(e.target.className === 'servings'){
-  //     return setCurrentServings(e.target.value)
-  //   }else{
-  //     return setCurrentUrl(e.target.value)
-  //   }
-  // }
-
+  
   const handleSubmit = (event) => {
     addMeal() // Save games when form is submitted
   }
